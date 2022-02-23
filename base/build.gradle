@@ -1,0 +1,57 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+
+        // 设置资源文件命名加上约束，解耦
+        resourcePrefix "base_"
+
+        // 如果此模块被打包成aar，以下配置的混淆文件将一并被打包到aar中并对aar包进行独立混淆
+        consumerProguardFiles 'consumer-rules.pro'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api rootProject.ext.androidDependencies.constraintLayout
+    api rootProject.ext.androidDependencies.lifecycle
+
+    api rootProject.ext.rxJavaDependencies.rxJava
+    api rootProject.ext.rxJavaDependencies.rxAndroid
+
+    api rootProject.ext.retrofitDependencies.retrofit
+    api rootProject.ext.retrofitDependencies.converterGson
+    api rootProject.ext.retrofitDependencies.converterScalars
+    api rootProject.ext.retrofitDependencies.adapterRxjava
+
+    api rootProject.ext.otherDependencies.autodispose
+    api rootProject.ext.otherDependencies.util
+    api rootProject.ext.otherDependencies.arouter
+    api rootProject.ext.otherDependencies.arouterCompiler
+
+}
