@@ -1,4 +1,4 @@
-package com.lee.base.mvvm.model;
+package com.lee.base.mvvm.data;
 
 import com.lee.base.mvvm.BaseError;
 
@@ -7,7 +7,7 @@ import com.lee.base.mvvm.BaseError;
  * Date ：2019-10-21 16:43
  * Description ：提供给需要使用BaseError的数据模型类
  */
-public interface IModel {
+public interface IData {
 
     BaseError error();
 

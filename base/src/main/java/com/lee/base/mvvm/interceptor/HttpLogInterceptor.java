@@ -19,7 +19,7 @@ import okio.Buffer;
  * Description ：打印http请求参数和响应内容日志的拦截器，这个拦截器一定添加在最后面
  */
 public class HttpLogInterceptor implements Interceptor {
-    private static final String TAG = "XDroid_Net";
+    private static final String TAG = HttpLogInterceptor.class.getSimpleName();
 
     @Override
     public Response intercept(Chain chain) throws IOException {

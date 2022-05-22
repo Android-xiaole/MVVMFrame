@@ -3,8 +3,8 @@ ext {
     // android基础配置
     android = [
             applicationId    : 'com.lee.mvpdemo',
-            compileSdkVersion: 30,
-            targetSdkVersion : 30,
+            compileSdkVersion: 31,
+            targetSdkVersion : 31,
             minSdkVersion    : 26,
             versionCode      : 1,
             versionName      : 'v1.0.0'
@@ -24,17 +24,21 @@ ext {
 
     // google官方依赖
     androidDependencies = [
-            constraintLayout: 'androidx.constraintlayout:constraintlayout:2.0.4',
-            material        : 'com.google.android.material:material:1.2.0-alpha06',
-            // 如果使用的是java8要显示声明如下的,这是google的lifecycle组件
-            lifecycle       : 'android.arch.lifecycle:common-java8:1.1.1'
+            // 此依赖包含viewModel和liveData2.3.1版本
+            appcompat         : "androidx.appcompat:appcompat:1.4.1",
+            // 用于在应用被意外销毁的时候保存和恢复viewModel数据
+            savedstate        : "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1",
+            // recyclerview,https://developer.android.google.cn/jetpack/androidx/releases/recyclerview
+            recyclerview      : "androidx.recyclerview:recyclerview:1.2.1",
+            // SwipeRefreshLayout,https://developer.android.google.cn/jetpack/androidx/releases/swiperefreshlayout
+            swiperefreshlayout: "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     ]
 
     // rxjava依赖
     rxJavaDependencies = [
             // rxjava库，https://github.com/ReactiveX/RxJava
             rxJava   : "io.reactivex.rxjava3:rxjava:$rxJavaVersion",
-            //rxandroid库，https://github.com/ReactiveX/RxAndroid
+            // rxAndroid库，https://github.com/ReactiveX/RxAndroid
             rxAndroid: "io.reactivex.rxjava3:rxandroid:$rxJavaVersion"
     ]
 
@@ -52,15 +56,13 @@ ext {
 
     // 其他依赖
     otherDependencies = [
-            // autodispose库，配合lifecycle组件使用,用于解决MVP模式内存泄漏的问题,https://github.com/uber/AutoDispose
-            autodispose        : 'com.uber.autodispose2:autodispose-androidx-lifecycle:2.0.0',
-
+            // EventBus事件总线组件库,https://github.com/greenrobot/EventBus
+            eventbus        : "org.greenrobot:eventbus:3.3.1",
             // 非常全面的android工具类库,https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/README-CN.md
-            util               : 'com.blankj:utilcodex:1.25.9',
-
-            // alibaba路由框架，需要注意的是版本号一定要是对应的最新版本，https://github.com/alibaba/ARouter
-            arouter            : 'com.alibaba:arouter-api:1.5.0',
-            arouterCompiler    : 'com.alibaba:arouter-compiler:1.2.2',
+            util            : "com.blankj:utilcodex:1.25.9",
+            // glide图片加载
+            "glide"         : "com.github.bumptech.glide:glide:4.11.0",
+            "glide-compiler": "com.github.bumptech.glide:compiler:4.11.0"
     ]
 
 

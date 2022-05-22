@@ -1,6 +1,4 @@
-package com.lee.base.mvvm.model;
-
-import com.lee.base.mvvm.BaseModel;
+package com.lee.base.mvvm.data;
 
 /**
  * Author ：lee
@@ -14,7 +12,7 @@ import com.lee.base.mvvm.BaseModel;
  *     }
  * }
  */
-class SingleModel<T> extends BaseModel {
+class SingleData<T> extends BaseData {
 
     T data;
 

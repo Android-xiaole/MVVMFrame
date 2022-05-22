@@ -15,9 +15,11 @@ import io.reactivex.rxjava3.observers.ResourceObserver;
 /**
  * Author ：le
  * Date ：2019-10-22 9:59
- * Description ：为Observable定制的专为网络请求使用的ResourceObserver
+ * Description ：为Observable定制的ResourceObserver
  */
-public abstract class NetWorkObserver<T> extends ResourceObserver<T> {
+public abstract class MyObserver<T> extends ResourceObserver<T> {
+    private boolean isNetWork = true; // 标记是否是网络请求，默认是网络请求
+    private IDisposableContainer disposableContainer;
 
     // 网络请求成功的回调
     protected abstract void onSuccess(T t);
@@ -32,22 +34,47 @@ public abstract class NetWorkObserver<T> extends ResourceObserver<T> {
     protected void onEnd() {
     }
 
+    public MyObserver() {
+    }
+
+    public MyObserver(boolean isNetWork) {
+        this.isNetWork = isNetWork;
+    }
+
+    public MyObserver(IDisposableContainer disposableContainer) {
+        this.disposableContainer = disposableContainer;
+    }
+
+    public MyObserver(boolean isNetWork, IDisposableContainer disposableContainer) {
+        this.isNetWork = isNetWork;
+        this.disposableContainer = disposableContainer;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-        NetworkUtils.NetworkType networkType = NetworkUtils.getNetworkType();
-        switch (networkType) {
-            case NETWORK_NO:
-            case NETWORK_UNKNOWN:
-                // 一定好主动调用下面这一句,取消本次Subscriber订阅
-                if (!isDisposed()) {
-                    dispose();
-                }
-                onFailure(BaseError.netWorkError());
-                onEnd();
-                break;
-            default:
-                break;
+        if (isNetWork) {
+            NetworkUtils.NetworkType networkType = NetworkUtils.getNetworkType();
+            switch (networkType) {
+                case NETWORK_NO:
+                case NETWORK_UNKNOWN:
+                    // 一定好主动调用下面这一句,取消本次Subscriber订阅
+                    if (!isDisposed()) {
+                        dispose();
+                    }
+                    onFailure(BaseError.netWorkError());
+                    onEnd();
+                    break;
+                default:
+                    if (disposableContainer != null) {
+                        disposableContainer.addDisposable(this);
+                    }
+                    break;
+            }
+        } else {
+            if (disposableContainer != null) {
+                disposableContainer.addDisposable(this);
+            }
         }
     }
 

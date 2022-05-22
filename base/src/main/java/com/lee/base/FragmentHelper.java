@@ -1,6 +1,5 @@
 package com.lee.base;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.LogUtils;
 
 import java.util.ArrayList;
@@ -19,13 +18,12 @@ import androidx.fragment.app.FragmentTransaction;
  * Date ：2019-11-19 15:36
  * Description ：实现activity对fragment add/show/hide/remove等操作的帮助类
  */
-public class FragmentHelper<T> {
-
-    private FragmentManager fragmentManager;
+public class FragmentHelper {
+    private final FragmentManager fragmentManager;
     //存储fragment的集合
-    private List<Fragment> fragmentList;
+    private final List<Fragment> fragmentList;
     //容器id
-    private int containerId;
+    private final int containerId;
     //当前fragment的坐标
     private int currentIndex;
 
@@ -33,10 +31,10 @@ public class FragmentHelper<T> {
      * 如果是构建是无参的fragment，list直接传path；如果构建有参的fragment，list就传fragment
      *
      * @param context     加载fragment的载体
-     * @param list        可以是ARouter注解的path路径集合，用来反射其对应的类对象，也可以是存储fragment的集合
-     * @param containerId 加载fragmrent的容器id
+     * @param list        存储fragment的集合
+     * @param containerId 加载fragment的容器id
      */
-    public FragmentHelper(@NonNull Object context, @NonNull List<T> list, @IdRes int containerId) {
+    public FragmentHelper(@NonNull Object context, @NonNull List<Fragment> list, @IdRes int containerId) {
         fragmentManager = getFragmentManager(context);
         this.containerId = containerId;
         fragmentList = new ArrayList<>();
@@ -88,49 +86,12 @@ public class FragmentHelper<T> {
         currentIndex = showIndex;
     }
 
-    /**
-     * 直接添加对象，类型由泛型参数决定
-     * @param t path或fragment对象
-     */
-    public void addFragment(@NonNull T t) {
-        if (t instanceof String) {
-            //这里通过ARouter创建fragment对象
-            fragmentList.add((Fragment) ARouter.getInstance().build((String) t).navigation());
-        } else if (t instanceof Fragment) {
-            fragmentList.add((Fragment) t);
-        }
+    public void addFragment(@NonNull List<Fragment> list) {
+        fragmentList.addAll(list);
     }
 
-    /**
-     * 直接添加一个集合，这个集合可以是String类型也可以是fragment类型，由泛型参数决定
-     * @param list 存储path或fragment的集合
-     */
-    public void addFragment(@NonNull List<T> list) {
-        for (T t : list) {
-            if (t instanceof String){
-                //这里通过ARouter创建fragment对象
-                fragmentList.add((Fragment) ARouter.getInstance().build((String) t).navigation());
-            }else if (t instanceof Fragment){
-                fragmentList.add((Fragment) t);
-            }
-        }
-    }
-
-    /**
-     * 写这个方法是为了处理如果出现同时添加无参和有参fragment的情况
-     *
-     * @param fragment 集合里面添加一个fragment对象
-     */
     public void addFragment(@NonNull Fragment fragment) {
         fragmentList.add(fragment);
-    }
-
-    /**
-     * 同上
-     * @param path 通过ARouter创建一个fragment对象添加到集合里
-     */
-    public void addFragment(@NonNull String path) {
-        fragmentList.add((Fragment) ARouter.getInstance().build(path).navigation());
     }
 
     /**

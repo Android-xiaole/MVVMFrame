@@ -1,6 +1,4 @@
-package com.lee.base.mvvm.model;
-
-import com.lee.base.mvvm.BaseModel;
+package com.lee.base.mvvm.data;
 
 import java.util.List;
 
@@ -24,7 +22,7 @@ import java.util.List;
  *     ]
  * }
  */
-class ListModel<T> extends BaseModel {
+class ListData<T> extends BaseData {
 
     List<T> data;
 

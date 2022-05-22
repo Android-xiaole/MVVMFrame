@@ -1,7 +1,7 @@
 package com.lee.base.mvvm.rxjava;
 
 import com.lee.base.mvvm.BaseError;
-import com.lee.base.mvvm.model.IModel;
+import com.lee.base.mvvm.data.IData;
 
 import org.reactivestreams.Publisher;
 
@@ -21,12 +21,12 @@ import io.reactivex.rxjava3.functions.Function;
  * Date ：2019-11-14 14:30
  * Description ：rxjava处理错误数据的方法集合类
  */
-public class ModelTransformer {
+public class DataTransformer {
 
     /**
      * Flowable异常处理变换
      */
-    public static <T extends IModel> FlowableTransformer<T, T> getFlowableTransformer() {
+    public static <T extends IData> FlowableTransformer<T, T> getFlowableTransformer() {
 
         return upstream -> upstream.flatMap((Function<T, Publisher<T>>) model -> {
             if (model == null) {
@@ -42,7 +42,7 @@ public class ModelTransformer {
     /**
      * Observable异常处理变换
      */
-    public static <T extends IModel> ObservableTransformer<T, T> getObservableTransformer() {
+    public static <T extends IData> ObservableTransformer<T, T> getObservableTransformer() {
 
         return upstream -> upstream.flatMap((Function<T, ObservableSource<T>>) model -> {
             if (model == null) {
@@ -55,7 +55,7 @@ public class ModelTransformer {
         });
     }
 
-    public static <T extends IModel> SingleTransformer<T, T> getSingleTransformer() {
+    public static <T extends IData> SingleTransformer<T, T> getSingleTransformer() {
 
         return upstream -> upstream.flatMap((Function<T, SingleSource<? extends T>>) model -> {
             if (model == null) {
